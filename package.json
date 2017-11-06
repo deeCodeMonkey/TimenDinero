@@ -1,0 +1,23 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "Simple portfolio",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Brad Traversy",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "*",
+    "express": "*",
+    "express-handlebars": "*",
+    "express-session": "*",
+    "multer": "*",
+    "mysql": "^2.15.0",
+    "mysql2": "^1.4.2",
+    "nodemailer": "^4.3.1",
+    "phantom-render-stream": "^2.2.0",
+    "sequelize": "^4.22.4"
+  }
+}

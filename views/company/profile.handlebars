@@ -1,0 +1,80 @@
+<!--Delete client modal confirmation-->
+<div id="delete-modal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Please Confirm To Delete Client <strong>{{clients.company_name}}</strong></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6><strong style="color: red;">WARNING:</strong> All projects related to <strong>{{clients.company_name}}</strong> will also be deleted.</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="delete-company" value="{{clients.client_id}}">Delete</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{{#if clients}}
+
+<div class="card card-tabs float-center" style="color: black; width: 600px; height: 1000px; font-family: 'Raleway', sans-serif;">
+
+    <div class="card-divider">
+        <h4 class="float-left" style="font-family: 'Raleway', sans-serif;"><strong>{{clients.company_name}}</strong></h4>
+        <ul class="tabs menu align-right">
+            <!-- note: these need to be in reverse order because of the align-right setting in .menu -->
+            <li class="tabs-title">              
+                <a data-toggle="modal" data-target="#delete-modal">
+                    <i class="fa fa-trash"></i> Delete Client
+                </a>
+            </li>
+            <li class="tabs-title">
+                <a href="/company/update/{{clients.client_id}}" data-id="{{clients.client_id}}">
+                    <i class="fa fa-edit"></i>
+                    Edit Client
+                </a>
+            </li>
+            <li class="tabs-title">
+                <a href="/admin/{{clients.client_id}}" style="color: #2199e8;">
+                    <i class="fa fa-list"></i>
+                    Timesheet
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tabs-content">
+
+        <div class="tabs-panel is-active" style="padding-left: 10px;">
+            <a href="/admin/{{clients.client_id}}"><img src="/images/logos/{{clients.logo}}" style="width: 100%; height: 75%;"></a>
+            <div class="card-section" style="padding-top: 20px;">
+                <h5>Billing Information:</h5>
+                <p><strong>Client ID:</strong> {{clients.client_id}}</p>
+                <p><strong>Contact Person:</strong> {{clients.contact_person}}</p>
+                <p><strong>Email Address:</strong> {{clients.email_address}}</p>
+                <p><strong>Phone:</strong> {{clients.phone}}</p>
+                <p><strong>Mailing Address:</strong> {{clients.mailing_address}}</p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{{else}}
+
+<h1>No Client.</h1>
+
+{{/if}}
+
+
+
+
+
+

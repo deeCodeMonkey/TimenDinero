@@ -1,0 +1,23 @@
+<!--If there are projects, then loop through them-->
+{{#if clients}}
+{{#each clients}}
+
+<div class="column" style="padding-top: 20px;">
+    <a href="/company/profile/{{client_id}}">
+        <div class="thumbnail" style="background-color: #DBDBDB">
+                <img src="/images/logos/{{logo}}">
+                <div class="caption">
+                    <h6 class="text-center" style="color: darkslategrey; font-family: 'Raleway', sans-serif;">{{company_name}}</h6>
+                    <h6 class="text-center" style="color: darkslategrey; font-family: 'Raleway', sans-serif; font-size: small">Client No. {{client_id}}</h6>
+                </div>          
+        </div>
+    </a>
+</div>
+
+
+{{/each}}
+{{else}}
+<p>No Clients.</p>
+{{/if}}
+
+

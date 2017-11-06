@@ -1,0 +1,185 @@
+﻿<div id="emailModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Emailing Invoice</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Please wait while your invoice is being prepared and emailed to <strong>{{email_address}}</strong>.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="color: black">
+    <div class="row">
+        <div class="col-xs-12">
+
+            <div class="row">
+       
+                <a href="/admin/{{client_id}}" ><i class="fa fa-chevron-left icon pull-left" style="color: #2199e8; font-size: 24px;"></i></a>  
+                <div class="col-xs-12 col-md-3 col-lg-3 pull-right" >
+                    <a id="pdfSender" data-id="{{client_id}}">
+                        <i class="fa fa-envelope-o icon pull-right" style="color: #2199e8; font-size: 26px;"></i>
+                        <i class="fa fa-mail-forward icon pull-right" style="color: #2199e8; font-size: 26px;"></i>
+                    </a>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+
+                <div class="col-xs-12 col-md-3 col-lg-3 pull-left">
+                    <div class="panel panel-default height">
+                        <div class="panel-heading">Bill To</div>
+                        <div class="panel-body">                          
+                            <strong>{{company_name}}</strong><br>
+                            Attn: {{contact_person}}<br>
+                            {{mailing_address}}<br>
+                            {{phone}}<br>
+                            {{email_address}}<br />
+                         
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-3 col-lg-3">
+                    <div class="panel panel-default height">
+                        <div class="panel-heading">Invoice</div>
+                        <div class="panel-body">
+                            <strong>Date:</strong><p id="today"></p>
+                            <strong>Due Date:</strong> Net 30<br>
+                            <strong>Account No: {{client_id}}</strong><br> 
+                            <!--<strong>Invoice No:</strong> N1234<br>-->                                                                        
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-3 col-lg-3">
+                    <div class="panel panel-default height">
+                        <div class="panel-heading">Payment Methods</div>
+                        <div class="panel-body">
+                            <strong>We Accept:</strong> PayPal (Credit Card), Check, ACH, Wires<br>
+                            <strong>Wire Instructions:</strong><br />
+                            Wells Fargo<br>
+                            123 Wall Street, NYC<br>
+                            ABA Routing# 12234445<br>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-3 col-lg-3">
+
+                    <img class="thumbnail pull-right" src="/images/design3.jpg" style="width: 100px; height: 100px;">
+
+                    <div class="panel panel-default height">
+                        <div class="panel-body">
+                            <strong>Time'nDinero PC</strong><br>
+                            123 Main St. Denver, CO 80219<br>
+                            303-555-000<br>
+                            billing@timeNDinero.com<br />
+                            <br />
+                            <strong>Thank you for your business!</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="text-center"><strong>Services Summary</strong></h3>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <td><strong>Project</strong></td>
+                                    <td><strong>Task</strong></td>
+                                    <td class="text-right"><strong>Rate</strong></td>
+                                    <td class="text-right"><strong>Hours</strong></td>
+                                    <td class="text-right"><strong>Total</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                {{#if projects}}
+                                {{#each projects}}
+                                <tr>
+                                    <td>{{project_title}}</td>
+                                    <td>{{task}}</td>
+                                    <td class="text-right">${{rate}}</td>
+                                    <td class="text-right">{{hours}}</td>
+                                    <td class="text-right">${{ext_amt}}</td>
+                                </tr>
+                                {{/each}}
+                                {{else}}
+                                <p>No Projects To Invoice.</p>
+                                {{/if}}
+
+
+                                <tr>
+                                    <td class="highrow"></td>
+                                    <td class="highrow"></td>
+                                    <td class="highrow"></td>
+                                    <td class="highrow text-right"><strong>Subtotal</strong></td>
+                                    <td class="highrow text-right">${{invoice_total}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="emptyrow"></td>
+                                    <td class="emptyrow"></td>
+                                    <td class="emptyrow"></td>
+                                    <td class="emptyrow text-right"><strong>Sales Tax</strong></td>
+                                    <td class="emptyrow text-right">-0-</td>
+                                </tr>
+                                <tr>
+                                    <td class="emptyrow"><i class="fa fa-barcode iconbig" style="color: #3c3c3c"></i></td>
+                                    <td class="emptyrow"></td>
+                                    <td class="emptyrow"></td>
+                                    <td class="emptyrow text-right"><strong>Total</strong></td>
+                                    <td class="emptyrow text-right">${{invoice_total}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .height {
+        min-height: 200px;
+    }
+
+    .icon {
+        font-size: 35px;
+        color: #5CB85C;
+    }
+
+    .iconbig {
+        font-size: 77px;
+        color: #5CB85C;
+    }
+
+    .table > tbody > tr > .emptyrow {
+        border-top: none;
+    }
+
+    .table > thead > tr > .emptyrow {
+        border-bottom: none;
+    }
+
+    .table > tbody > tr > .highrow {
+        border-top: 3px solid;
+    }
+</style>
+

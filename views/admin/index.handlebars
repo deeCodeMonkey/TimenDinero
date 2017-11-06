@@ -1,0 +1,197 @@
+<!--/admin view is this index file. LIST OF PROJECTS-->
+<div>
+    <a href="/company/profile/{{client_id}}"><h5 style="color: darkslategray;">{{company_name}}</h5></a>
+</div>
+<br />
+<div>
+    {{#if projects}}
+    <a href="/admin/index/{{client_id}}" class="button primary hollow" data-toggle="modal" data-target="#addModal"><i class="fi-plus" ></i></a>
+    <a href="/invoice/{{client_id}}" class="button primary hollow float-right"><i class="fa fa-file-text icon pull-right"> Invoice</i></a>
+    <table class="table-expand">
+        <thead>
+            <tr class="table-expand-row">
+                <!--<th width="150">Client ID</th>-->
+                <th width="150">Project</th>
+                <th width="125">Date</th>
+                <th width="125">Task</th>
+                <th width="250">Description of Work</th>
+                <th class="text-right" width="150">Hours</th>
+                <th class="text-right" width="150">Hrly Rate</th>
+                <th class="text-right" width="150">Extended Amount</th>
+                <th width="10" class="fi-list-bullet"></th>
+                <th></th>
+            </tr>
+        </thead>
+        {{#each projects}}
+        <tbody>
+            <tr class="table-expand-row" data-open-details>
+                <!--<td>{{client_id}}</td>-->
+                <td>{{project_title}}</td>
+                <td>{{date}}</td>
+                <td>{{task}}</td>
+                <td>{{description}}</td>
+                <td class="text-right">{{hours}}</td>
+                <td class="text-right">${{rate}}</td>
+                <td class="text-right">${{ext_amt}}</td>
+                <td style="white-space: nowrap;"><span class="expand-icon" style="color:#2199e8;">
+                      </span>&nbsp;&nbsp;&nbsp;</td>
+                <td><span class="glyphicon glyphicon-edit edit-project" style="color:#2199e8;" aria-hidden="true" data-toggle="modal"
+                  data-target="#editModal" data-id="{{id}}" data-client-id="{{client_id}}" data-date="{{date}}" data-title="{{project_title}}" data-task="{{task}}" data-description="{{description}}" data-hours="{{hours}}" data-rate="{{rate}}" data-notes="{{notes}}"></span>&nbsp;&nbsp;&nbsp;
+                <span data-toggle="modal" data-target="#deleteProject-modal" class="glyphicon glyphicon-remove-circle delete-project" data-id="{{id}}" data-title="{{project_title}}" data-task="{{task}}"> </span>
+                </td>
+            </tr>
+            <tr class="table-expand-row-content">
+                <td colspan="9" class="table-expand-row-nested">
+                    <p>{{notes}}</p>
+                </td>
+            </tr>
+        </tbody>
+        {{/each}}
+    </table>
+
+    {{else}}
+    <a href="/company/profile/{{client_id}}"><i class="fa fa-chevron-left icon pull-left" style="color: #2199e8; font-size: 20px;"> Go Back</i></a>
+    <br />
+    <br />
+    <h5 style="color: darkslategray">No projects were entered for this client.</h5>
+    <br />
+    <a href="/admin/index/{{client_id}}" class="button primary hollow" data-toggle="modal" data-target="#addModal"><i class="fi-plus"></i></a>
+    {{/if}}
+</div>
+
+
+
+<!-- "ADD" Modal. id to match the target in button -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!--route /add-->
+            <form method="post" action="/admin/index/{{client_id}}">
+                <input type="hidden" name="clientId" value="{{id}}"/>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Project Task</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- Modal content -->
+                    <div class="form-group">
+                        <label>Date Performed</label>
+                        <input id="newProjectDate" type="date" class="form-control" name="date" />
+                    </div>
+                    <div class="form-group">
+                        <label>Project Title</label>
+                        <input type="text" class="form-control" name="title" />
+                    </div>
+                    <div class="form-group">
+                        <label>Task</label>
+                        <input type="text" class="form-control" name="task" />
+                    </div>
+                    <div class="form-group">
+                        <label>Hours</label>
+                        <input type="number"  min="1" step="0.01" class="form-control" name="hours" />
+                    </div>
+                    <div class="form-group">
+                        <label>Rate</label>
+                        <input type="number"  min="1" step="0.01" class="form-control" name="rate" />
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea class="form-control" name="description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Notes</label>
+                        <textarea class="form-control" name="notes"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Save" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!--Edit Modal-->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!--route /add-->
+            <form name="editForm" action="/admin/edit" method="post">
+                <input type="hidden" name="client_id" id="edit-form-client-id" />
+                <input type="hidden" name="id" id="edit-form-id" />
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Project Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Modal content -->
+                    <div class="form-group">
+                        <label>Date Performed</label>
+                        <input type="date" class="form-control" name="date" id="edit-form-date" />
+                    </div>
+                    <div class="form-group">
+                        <label>Project Title</label>
+                        <input type="text" class="form-control" name="title" id="edit-form-title" />
+                    </div>
+                    <div class="form-group">
+                        <label>Task</label>
+                        <input type="text" class="form-control" name="task"  id="edit-form-task" />
+                    </div>
+                    <div class="form-group">
+                        <label>Hours</label>
+                        <input type="number" min="1" step="0.01" class="form-control" name="hours"  id="edit-form-hours" />
+                    </div>
+                    <div class="form-group">
+                        <label>Rate</label>
+                        <input type="number" min="1" step="0.01" class="form-control" name="rate"  id="edit-form-rate" />
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input type="text" class="form-control" name="description" id="edit-form-description"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Notes</label>
+                        <textarea class="form-control" name="notes" id="edit-form-notes" ></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Save" />                        
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<!--Delete project task per modal confirmation-->
+<div id="deleteProject-modal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" >
+                <h5 class="modal-title">Are you sure you want to <br/>delete task &quot;<span id="delete-task"></span>&quot; of project &quot;<span id="delete-project-name"></span>&quot; ?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6><strong style="color: red;">WARNING: </strong>Project task cannot be recovered after deletion.</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="delete-project-btn" data-project-id="" data-client-id="{{client_id}}">Delete</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
