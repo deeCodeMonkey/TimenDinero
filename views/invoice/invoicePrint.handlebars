@@ -1,64 +1,62 @@
 ﻿{{> header}}
 <div class="container" style="color: black">
+
     <div class="row">
-        <div class=" ">
+        <div class="col-md-6 col-sx-6">
+            <div class="panel panel-default height">
+                <div class="panel-heading">Bill To</div>
+                <div class="panel-body">
+                    <strong>{{company_name}}</strong><br>
+                    Attn: {{contact_person}}<br>
+                    {{mailing_address}}<br>
+                    {{phone}}<br>
+                    {{email_address}}<br />
 
-            <div class="row">
-                <div class="col-md-6 col-sx-6">
-                    <div class="panel panel-default height">
-                        <div class="panel-heading">Bill To</div>
-                        <div class="panel-body">
-                            <strong>{{company_name}}</strong><br>
-                            Attn: {{contact_person}}<br>
-                            {{mailing_address}}<br>
-                            {{phone}}<br>
-                            {{email_address}}<br />
-
-                        </div>
-                    </div>
                 </div>
-                <div class="col-md-6 col-sx-6">
-                    <div class="panel panel-default height">
-                        <div class="panel-heading">Invoice</div>
-                        <div class="panel-body">
-                            <strong>Date:</strong><p id="today"></p>
-                            <strong>Due Date:</strong> Net 30<br>
-                            <strong>Account No: {{client_id}}</strong><br>
-                            <!--<strong>Invoice No:</strong> N1234<br>-->    
-                        </div>
-                    </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sx-6">
+            <div class="panel panel-default height">
+                <div class="panel-heading">Invoice</div>
+                <div class="panel-body">
+                    <strong>Date:</strong><p id="today"></p>
+                    <strong>Due Date:</strong> Net 30<br>
+                    <strong>Account No: {{client_id}}</strong><br>
+                    <!--<strong>Invoice No:</strong> N1234<br>-->
                 </div>
-                <div class="col-md-6 col-sx-6">
-                    <div class="panel panel-default height">
-                        <div class="panel-heading">Payment Methods</div>
-                        <div class="panel-body">
-                            <strong>We Accept:</strong> PayPal (Credit Card), Check, ACH, Wires<br>
-                            <strong>Wire Instructions:</strong><br />
-                            Wells Fargo<br>
-                            123 Wall Street, NYC<br>
-                            ABA Routing# 12234445<br>
-                        </div>
-                    </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sx-6">
+            <div class="panel panel-default height">
+                <div class="panel-heading">Payment Methods</div>
+                <div class="panel-body">
+                    <strong>We Accept:</strong> PayPal (Credit Card), Check, ACH, Wires<br>
+                    <strong>Wire Instructions:</strong><br />
+                    Wells Fargo<br>
+                    123 Wall Street, NYC<br>
+                    ABA Routing# 12234445<br>
                 </div>
-                <div class="col-md-6 col-sx-6">
-                    <div class="panel panel-default height">
-                        <div class="panel-heading">
-                            <strong>Time'nDinero PC</strong><img class="thumbnail pull-right" src="/images/design3.jpg" style="width: 100px; height: 100px;">
-                        </div>
-                        <div class="panel-body">
-                            123 Main St. Denver, CO 80219<br>
-                            303-555-000<br>
-                            billing@timeNDinero.com<br />
-                            <br />
-                            <strong>Thank you for your business!</strong>
-                        </div>
-                    </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sx-6">
+            <div class="panel panel-default height">
+                <div class="panel-heading">
+                    <strong>Time'nDinero PC</strong><img class="thumbnail pull-right" src="/images/design3.jpg" style="width: 100px; height: 100px;">
+                </div>
+                <div class="panel-body">
+                    123 Main St. Denver, CO 80219<br>
+                    303-555-000<br>
+                    billing@timeNDinero.com<br />
+                    <br />
+                    <strong>Thank you for your business!</strong>
                 </div>
             </div>
         </div>
     </div>
+
+
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 col-sx-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="text-center"><strong>Services Summary</strong></h3>

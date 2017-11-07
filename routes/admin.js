@@ -39,13 +39,7 @@ router.post('/edit', upload.single('project_file'), function (req, res, next) {
 
 //delete record 
 router.delete('/delete/:idOfrecord', (req, res) => {
-    /*
-    connection.query('DELETE FROM projects WHERE project_id = ' + req.params.idOfrecord, function (err, result) {
-        if (err) throw err;
-        console.log('Deleted' + result.affectedRows + 'rows.');
-    });
-    res.sendStatus(200);
-    */
+    
     db.Project.destroy({
         where: {
             id: req.params.idOfrecord
@@ -60,27 +54,7 @@ router.delete('/delete/:idOfrecord', (req, res) => {
 
 //display list of tasks of a client
 router.get('/:client_id', function (req, res, next) {
-    /*
-    connection.query('SELECT * FROM clients LEFT JOIN projects ON projects.client_id = clients.client_id WHERE clients.client_id = ? ORDER BY project_title, date', req.params.client_id, (err, rows, fields) => {
-        if (err) throw err;
-        //change date format for presenation
-        let companyName = rows[0].company_name;
-        var actualRows = [];
-        rows.forEach((e) => {
-            //if project doesn't exist, does not push into 'actualRows'
-            if (e.project_id) {
-                e.date = new Date(e.date).toISOString().slice(0, 10);
-                actualRows.push(e);
-            } 
-        });
-        res.render('admin/index', {
-            'client_id': req.params.client_id,
-            'projects': actualRows,
-            'company_name': companyName
-        });
-
-    });
-    */
+   
     db.Client.findOne({
         where: {
             client_id: req.params.client_id,
@@ -131,19 +105,6 @@ router.post('/index/:client_id', function (req, res, next) {
         notes: req.body.notes,
         client_id: req.body.clientId
     };
-
-    /*
-    var query = connection.query('INSERT INTO projects SET ?', project, function (err, result) {
-        if (err) {
-            console.log('Error: ' + err);
-            console.log(project.date);
-        } else {
-            console.log('Success: ' + result);
-            console.log(project.date);
-        }
-    });
-    res.redirect('/admin/' + req.params.client_id);
-    */
 
     db.Project.create(project).then(function (dbClient) {
         res.redirect('/admin/' + req.params.client_id);

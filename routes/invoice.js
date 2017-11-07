@@ -8,109 +8,54 @@ var nodemailer = require('nodemailer');
 var db = require('../models');
 
 
-//generate and display invoice for client
-router.get('/:id', function (req, res, next) {
-    /*
-    connection.query('SELECT * FROM projects INNER JOIN clients ON projects.client_id = clients.client_id WHERE projects.client_id = ? ORDER BY project_title', req.params.id, (err, rows, fields) => {
-        if (err) throw err;
 
-        var total = 0;
-        console.log(rows);
-        //sum ext_amt for every row 
-        rows.map(function (row) { total += row.ext_amt; });
-        total = currency(total);
+router.getInvoiceData = function (client_id, res, layout, url) {
 
-        res.render('invoice/invoice', {
-            'client_id': req.params.id,
-            'projects': rows,
-            'invoice_total': total,
-            'company_name': rows[0].company_name,
-            'contact_person': rows[0].contact_person,
-            'mailing_address': rows[0].mailing_address,
-            'email_address': rows[0].email_address,
-            'phone': rows[0].phone
-        });   
-    });
-    */
-    Project.findAll({
+    db.Client.findAll({
         include: [
             {
-                model: Client,
-                required: true
+                model: db.Project,
             }
-        ]
+        ],
+        where: {
+            client_id: client_id
+        }
     }).then(function (rows) {
         var total = 0;
-        console.log(rows);
+        //console.log(JSON.stringify(rows[0].Projects));
         //sum ext_amt for every row 
-        rows.map(function (row) { total += row.ext_amt; });
-        total = currency(total);
+        rows[0].Projects.map(function (row) {
+            row.ext_amt = row.rate * row.hours;
+            total += row.ext_amt;
+            row.ext_amt = router.currency(row.ext_amt);
+        });
+        total = router.currency(total);
 
-        res.render('invoice/invoice', {
-            'client_id': req.params.id,
-            'projects': rows,
+        var option = {
+            'client_id': client_id,
+            'projects': rows[0].Projects,
             'invoice_total': total,
             'company_name': rows[0].company_name,
             'contact_person': rows[0].contact_person,
             'mailing_address': rows[0].mailing_address,
             'email_address': rows[0].email_address,
-            'phone': rows[0].phone
-        });
+            'phone': rows[0].phone,
+        };
+        if (!layout) {
+            option.layout = false;
+        }
+        res.render(url, option);
     });
-});
+};
 
+//generate and display invoice for client
+router.get('/:id', function (req, res, next) {
+    router.getInvoiceData(req.params.id, res, true, 'invoice/invoice');
+});
 
 //generate actual invoice without GUI
 router.get('/inv/:id', function (req, res, next) {
-    /*
-    connection.query('SELECT * FROM projects INNER JOIN clients ON projects.client_id = clients.client_id WHERE projects.client_id = ? ORDER BY project_title', req.params.id, (err, rows, fields) => {
-        if (err) throw err;
-
-        var total = 0;
-        console.log(rows);
-        //sum ext_amt for every row 
-        rows.map(function (row) { total += row.ext_amt; });
-        total = currency(total);
-
-        res.render('invoice/invoicePrint', {
-            'client_id': req.params.id,
-            'projects': rows,
-            'invoice_total': total,
-            'company_name': rows[0].company_name,
-            'contact_person': rows[0].contact_person,
-            'mailing_address': rows[0].mailing_address,
-            'email_address': rows[0].email_address,
-            'phone': rows[0].phone,
-            layout: false
-        });
-    });
-    */
-    Project.findAll({
-        include: [
-            {
-                model: Client,
-                required: true
-            }
-        ]
-    }).then(function (rows) {
-        var total = 0;
-        console.log(rows);
-        //sum ext_amt for every row 
-        rows.map(function (row) { total += row.ext_amt; });
-        total = currency(total);
-
-        res.render('invoice/invoicePrint', {
-            'client_id': req.params.id,
-            'projects': rows,
-            'invoice_total': total,
-            'company_name': rows[0].company_name,
-            'contact_person': rows[0].contact_person,
-            'mailing_address': rows[0].mailing_address,
-            'email_address': rows[0].email_address,
-            'phone': rows[0].phone,
-            layout: false
-        });
-    });
+    router.getInvoiceData(req.params.id, res, false, 'invoice/invoicePrint');
 });
 
 
@@ -120,36 +65,28 @@ router.get('/pdf/:id', function (req, res, next) {
     destination.addListener('finish', () => {
         let fp = path.join(__dirname, '../invoice.pdf');
 
-        /*
-        connection.query('SELECT * FROM clients WHERE client_id=' +
-            req.params.id, (err, rows, fields) => {
-                sendPdf(fp, rows[0].email_address, rows[0].company_name, rows[0].contact_person, rows[0].client_id, res);
-            });
-    });
-        */
         db.Client.findOne({
             where: {
                 client_id: req.params.id
             }
-        }).then(function (rows) {
-            sendPdf(fp, rows[0].email_address, rows[0].company_name, rows[0].contact_person, rows[0].client_id, res);
+        }).then(function (row) {
+            router.sendPdf(fp, row.email_address, row.company_name, row.contact_person, row.client_id, res);
         });
-});
+    });
 
-
-render('http://localhost:8080/invoice/inv/' + req.params.id, {
-    orientation: 'portrait',
-    format: 'pdf',
-    zoomFactor: 1,
-    margin: '1cm',
-    width: 1000,
-}).pipe(destination);
+    render('http://localhost:8080/invoice/inv/' + req.params.id, {
+        orientation: 'portrait',
+        format: 'pdf',
+        zoomFactor: 1,
+        margin: '1cm',
+        width: 1000,
+    }).pipe(destination);
 
 });
 
 
 //email pdf invoice
-function sendPdf(pdfPath, emailAddress, companyName, contactPerson, client_id, res) {
+router.sendPdf = function (pdfPath, emailAddress, companyName, contactPerson, client_id, res) {
     nodemailer.createTestAccount((err, account) => {
         // create reusable transporter object using the default SMTP transport
         let transporter = nodemailer.createTransport({
@@ -183,12 +120,12 @@ function sendPdf(pdfPath, emailAddress, companyName, contactPerson, client_id, r
             res.redirect('/invoice/' + client_id);
         });
     });
-}
+};
 
 
 
 //currency format function
-var currency = function (num) {
+router.currency = function (num) {
     var str = num.toString();
     var decIndex = str.indexOf('.');
     if (decIndex === -1) {
