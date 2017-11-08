@@ -48,10 +48,12 @@ router.getInvoiceData = function (client_id, res, layout, url) {
     });
 };
 
+
 //generate and display invoice for client
 router.get('/:id', function (req, res, next) {
     router.getInvoiceData(req.params.id, res, true, 'invoice/invoice');
 });
+
 
 //generate actual invoice without GUI
 router.get('/inv/:id', function (req, res, next) {

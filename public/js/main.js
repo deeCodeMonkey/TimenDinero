@@ -1,7 +1,7 @@
 
 $(document).ready(function () {
 
-    //delete project per modal
+    //delete Project per modal
     $('#delete-project-btn').click(function () {
         var project_id = $(this).attr('data-project-id');
         var client_id = $(this).attr('data-client-id');
@@ -26,7 +26,7 @@ $(document).ready(function () {
     });
 
 
-    //delete company per modal
+    //delete Company per modal
     $('#delete-company').click(function () {
         var id = $(this).val();
         console.log('this is jquery ' + id);
@@ -59,15 +59,19 @@ $(document).ready(function () {
 
     //search bar
     var cache = {};
+    //autcomplete is a jquery UI component
+    //autocomplete provides suggestions while you type into the field
     $("#search").autocomplete({
         minLength: 1,
         delay: 300,
+        //returns array of labels with values
         source: function (request, response) {
             var term = request.term;
             if (term in cache) {
                 response(cache[term]);
                 return cache[term];
             }
+            //get company search response from API
             $.getJSON("/company/search",
                 request,
                 function (data, status, xhr) {
@@ -76,6 +80,7 @@ $(document).ready(function () {
                     return cache[term];
                 });
         },
+        //when company selected
         select: function (event, ui) {
             window.location = '/company/profile/' + ui.item.value;
             return false;

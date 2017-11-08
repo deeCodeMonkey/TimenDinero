@@ -183,6 +183,9 @@
 
 
 
+
+
+
 .search-form .form-group {
     float: right !important;
     transition: all 0.35s, border-radius 0s;
@@ -192,6 +195,8 @@
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
     border-radius: 25px;
     border: 1px solid #ccc;
+    width: 65%;
+    border-radius: 4px 25px 25px 4px;
 }
 
     .search-form .form-group input.form-control {
@@ -220,11 +225,15 @@
             display: none;
         }
 
+    
     .search-form .form-group:hover,
     .search-form .form-group.hover {
-        width: 100%;
-        border-radius: 4px 25px 25px 4px;
+    width: 100%;
+    border-radius: 4px 25px 25px 4px; 
     }
+
+ 
+    
 
     .search-form .form-group span.form-control-feedback {
         position: absolute;

@@ -1,11 +1,11 @@
 <!--/admin view is this index file. LIST OF PROJECTS-->
 <div>
-    <a href="/company/profile/{{client_id}}"><h5 style="color: darkslategray;">{{company_name}}</h5></a>
+    <a href="/company/profile/{{client_id}}"><h5 style="color: darkslategray; font-weight: bold;">{{company_name}}</h5></a>
 </div>
 <br />
 <div>
     {{#if projects}}
-    <a href="/admin/index/{{client_id}}" class="button primary hollow" data-toggle="modal" data-target="#addModal"><i class="fi-plus" ></i></a>
+    <a href="/admin/index/{{client_id}}" class="button primary hollow" data-toggle="modal" data-target="#addModal"><i class="fi-plus"></i></a>
     <a href="/invoice/{{client_id}}" class="button primary hollow float-right"><i class="fa fa-file-text icon pull-right"> Invoice</i></a>
     <table class="table-expand">
         <thead>
@@ -55,7 +55,7 @@
     <br />
     <h5 style="color: darkslategray">No projects were entered for this client.</h5>
     <br />
-    <a href="/admin/index/{{client_id}}" class="button primary hollow" data-toggle="modal" data-target="#addModal"><i class="fi-plus"></i></a>
+    <a href="/admin/index/{{client_id}}" class="button primary hollow" data-toggle="modal" data-target="#addModal"><i class="fi-plus" id="addFirstProject"></i></a>
     {{/if}}
 </div>
 
