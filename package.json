@@ -1,12 +1,17 @@
 {
-  "name": "portfolio",
+  "name": "TimenDinero",
   "version": "1.0.0",
-  "description": "Simple portfolio",
+  "description": "billing app",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
-  "author": "Brad Traversy",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deeCodeMonkey/TimenDinero.git"
+  },
+  "author": "DN",
   "license": "ISC",
   "dependencies": {
     "body-parser": "*",
