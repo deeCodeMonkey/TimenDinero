@@ -45,6 +45,8 @@ router.delete('/delete/:idOfrecord', (req, res) => {
             id: req.params.idOfrecord
         }
     }).then(function (dbProject) {
+        res.end();
+        //res.json(dbProject);
         console.log('Deleted ' + JSON.stringify(dbProject));
     });
 
